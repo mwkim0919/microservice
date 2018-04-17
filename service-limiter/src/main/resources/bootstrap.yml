@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: service-limiter
+  cloud:
+    config:
+      uri: http://localhost:8888
+# If you uncomment the below, it will fetch service-limiter-qa.yml file
+#  profiles:
+#    active: qa

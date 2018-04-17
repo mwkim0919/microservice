@@ -4,7 +4,7 @@ spring:
     config:
       server:
         git:
-          uri: file:///in28Minutes/git/spring-micro-services/03.microservices/git-localconfig-repo
+          uri: https://github.com/mwkim0919/ConfigData
   application:
     name: config-server
 ---
