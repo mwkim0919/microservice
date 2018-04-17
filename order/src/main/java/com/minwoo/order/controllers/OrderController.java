@@ -12,19 +12,11 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private Database database;
-
-    @Autowired
     private DatabaseList databaseList;
 
     @GetMapping(value = "/orders")
     public String getOrders() {
         return "This is orders";
-    }
-
-    @GetMapping(value = "/database")
-    public Database getDatasource() {
-        return database;
     }
 
     @GetMapping(value = "/databases")

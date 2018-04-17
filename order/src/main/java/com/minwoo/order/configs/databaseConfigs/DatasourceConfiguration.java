@@ -84,6 +84,7 @@ public class DatasourceConfiguration {
     private Map<Object, Object> getDataSources(List<Database> databases) {
         Map<Object, Object> map = new HashMap<>();
         databases.forEach(database -> {
+            // getting devNumbers from jdbcUrl
             String devNumber = database.getJdbcUrl().split("=")[1].replaceAll("\\D+","");
             DataSource dataSource = DataSourceBuilder.create().url(database.getJdbcUrl())
                     .username(database.getUsername())
