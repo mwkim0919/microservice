@@ -4,7 +4,9 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/mwkim0919/ConfigData
+          uri: file:///in28Minutes/git/spring-micro-services/03.microservices/git-localconfig-repo
+  application:
+    name: config-server
 ---
 server:
-  port: 8001
+  port: 8888
