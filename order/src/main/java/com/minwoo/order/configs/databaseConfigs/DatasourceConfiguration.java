@@ -27,7 +27,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         basePackages = "com.minwoo",
         entityManagerFactoryRef = "entityManager",
-        transactionManagerRef = "customerTransactionManager")
+        transactionManagerRef = "getTransactionManager")
 @EnableTransactionManagement
 public class DatasourceConfiguration {
 
@@ -39,7 +39,15 @@ public class DatasourceConfiguration {
 
     @Bean
     @Primary
-    public DataSource clientDataSource() {
+    public JpaProperties jpaProperties() {
+        JpaProperties jpaProperties = new JpaProperties();
+        jpaProperties.setDatabase(org.springframework.orm.jpa.vendor.Database.SQL_SERVER);
+        return jpaProperties;
+    }
+
+    @Bean
+    @Primary
+    public DataSource getDatasource() {
         DatasourceRouter router = new DatasourceRouter();
         final Map<Object, Object> map = getDataSources(databaseList.getDatabase());
         router.setTargetDataSources(map);
@@ -52,13 +60,13 @@ public class DatasourceConfiguration {
             final JpaProperties jpaProperties) {
         EntityManagerFactoryBuilder builder =
                 createEntityManagerFactoryBuilder(jpaProperties);
-        return builder.dataSource(clientDataSource()).packages("com.monkey.apiManagement")
+        return builder.dataSource(getDatasource()).packages("com.minwoo")
                 .persistenceUnit("entityManager").build();
     }
 
     @Bean
     @Primary
-    public JpaTransactionManager customerTransactionManager(
+    public JpaTransactionManager getTransactionManager(
             @Qualifier("entityManager") final EntityManagerFactory factory) {
         return new JpaTransactionManager(factory);
     }
