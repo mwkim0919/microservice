@@ -1,5 +1,5 @@
 spring:
   application:
-    name: order
+    name: customer
 server:
-  port: 8080
+  port: 8081
