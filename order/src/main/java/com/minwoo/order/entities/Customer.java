@@ -1,8 +1,5 @@
 package com.minwoo.order.entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

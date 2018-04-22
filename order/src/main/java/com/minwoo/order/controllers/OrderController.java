@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -48,14 +49,18 @@ public class OrderController {
     @GetMapping(value = "/orders/{id}")
     public ResponseEntity<Order> getAnOrder(@PathVariable("id") int id) {
         DatasourceContext.setCurrentDatasource("311");
-        Order result = orderRepository.getOne(id);
-        return ResponseEntity.ok(result);
+        Optional<Order> result = orderRepository.findById(id);
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping(value = "/customers/{id}/orders")
     public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable("id") int customerId) {
         DatasourceContext.setCurrentDatasource("311");
-        ResponseEntity<Customer> customerResult = customerProxy.getCustomerById(customerId);
+        ResponseEntity<Customer> customerResult = customerProxy.findCustomerById(customerId);
         Customer customer = customerResult.getBody();
         if (customer != null) {
             List<Order> results = orderRepository.findOrderByMemberId(customer.getId());

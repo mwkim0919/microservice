@@ -8,4 +8,4 @@ spring:
         format_sql: true
 ---
 server:
-  port: 8081
+  port: ${PORT:${SERVER_PORT:0}}

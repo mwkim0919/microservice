@@ -1,185 +1,131 @@
-package com.minwoo.customer.entities;
+package com.minwoo.customer.models;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.minwoo.customer.entities.Customer;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(schema = "dbo", name = "member")
-public class Customer {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CustomerModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "member_id")
     private int id;
-
-    @Column(name = "member_fname")
+    
     private String firstName;
 
-    @Column(name = "member_lname")
     private String lastName;
 
-    @Column(name = "member_email")
     private String email;
 
-    @Column(name = "member_password")
     private String password;
 
-    @Column(name = "member_phone")
     private String phone;
 
-    @Column(name = "member_fax")
     private String fax;
 
-    @Column(name = "member_cel")
     private String cellPhone;
 
-    @Column(name = "member_phone_home")
     private String homePhone;
 
-    @Column(name = "member_other1")
     private String other1;
 
-    @Column(name = "member_other2")
     private String other2;
 
-    @Column(name = "member_address_1")
     private String address1;
 
-    @Column(name = "member_address_2")
     private String address2;
 
-    @Column(name = "member_city")
     private String city;
 
-    @Column(name = "member_province")
     private Short provinceId;
 
-    @Column(name = "member_postal")
     private String postal;
 
-    @Column(name = "member_country")
     private Integer countryId;
 
-    @Column(name = "member_company")
     private String company;
 
-    @Column(name = "member_date")
     private LocalDateTime date;
 
-    @Column(name = "mailing_status")
     private Boolean mailingStatus;
 
-    @Column(name = "validity")
     private Byte validity;
 
-    @Column(name = "member_count")
     private Integer memberCount;
 
-    @Column(name = "member_billing")
     private Integer billingId;
 
-    @Column(name = "member_note")
     private String note;
 
-    @Column(name = "sales_group_id", nullable = false)
     private int salesGroupId;
 
-    @Column(name = "admin_id")
     private Integer adminId;
 
-    @Column(name = "acquisition_venue_id", nullable = false)
     private int acquistionVenueId;
 
-    @Column(name = "acquisition_type_id")
     private Integer acquisitionTypeId;
 
-    @Column(name = "acquisition_cost", nullable = false)
     private BigDecimal acquisitionCost;
 
-    @Column(name = "admin_id_added", nullable = false) //  foreign key
     private int adminIdAdded;
 
-    @Column(name = "member_search")
     private String memberSearch;
 
-    @Column(name = "member_is_lead")
     private Boolean isLead;
 
-    @Column(name = "member_status")
     private Boolean status;
 
-    @Column(name = "member_isDeleted")
     private Boolean isDeleted;
 
-    @Column(name = "recurring_po_number")
     private String recurringPoNumber;
 
-    @Column(name = "preferred_store_id")
     private Integer preferredStoreId;
 
-    @Column(name = "pharm_reps")
     private Boolean pharmReps;
 
-    @Column(name = "lead_status_id")
     private Integer leadStatusId;
 
-    @Column(name = "internal_note")
     private String internalNote;
 
-    @Column(name = "member_lead_to_client")
     private Boolean leadToClient;
 
-    @Column(name = "temp_tax_exempt_number")
     private String tempTaxExemptNumber;
 
-    @Column(name = "referral_type_id")
     private Integer referralTypeId;
 
-    @Column(name = "default_revenue_source")
     private Integer defaultRevenueSource;
 
-    @Column(name = "email_invoice_to_member", nullable = false)
     private boolean emailInvoiceToMember;
 
-    @Column(name = "email_invoice_to_billing", nullable = false)
     private boolean emailInvoiceToBilling;
 
-    @Column(name = "do_not_call", nullable = false)
     private boolean doNotCall;
 
-    @Column(name = "member_latitude")
     private Float latitude;
 
-    @Column(name = "member_longitude")
     private Float longitude;
 
-    @Column(name = "geolocation_source")
     private String geolocationSource;
 
-    @Column(name = "is_guest_account", nullable = false)
     private boolean isGuestAccount;
 
-    @CreationTimestamp
-    @Column(name = "date_registered")
     private LocalDateTime registeredDate;
 
-    @Column(name = "access_house_account", nullable = false)
     private boolean accessHouseAccount;
 
-    @Column(name = "sms_opt_in", nullable = false)
     private boolean smsOptIn;
 
-    @Column(name = "external_id")
     private Integer externalId;
 
-    public Customer() {
+    protected CustomerModel() {
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -604,5 +550,130 @@ public class Customer {
 
     public void setExternalId(Integer externalId) {
         this.externalId = externalId;
+    }
+
+    public static CustomerModel parseCustomer(Customer customer) {
+        if (customer == null) {
+            return null;
+        }
+        CustomerModel result = new CustomerModel();
+        result.setId(customer.getId());
+        result.setFirstName(customer.getFirstName());
+        result.setLastName(customer.getLastName());
+        result.setEmail(customer.getEmail());
+        result.setPassword(customer.getPassword());
+        result.setPhone(customer.getPhone());
+        result.setFax(customer.getFax());
+        result.setCellPhone(customer.getCellPhone());
+        result.setHomePhone(customer.getHomePhone());
+        result.setOther1(customer.getOther1());
+        result.setOther2(customer.getOther2());
+        result.setAddress1(customer.getAddress1());
+        result.setAddress2(customer.getAddress2());
+        result.setCity(customer.getCity());
+        result.setProvinceId(customer.getProvinceId());
+        result.setPostal(customer.getPostal());
+        result.setCountryId(customer.getCountryId());
+        result.setCompany(customer.getCompany());
+        result.setDate(customer.getDate());
+        result.setMailingStatus(customer.getMailingStatus());
+        result.setValidity(customer.getValidity());
+        result.setMemberCount(customer.getMemberCount());
+        result.setBillingId(customer.getBillingId());
+        result.setNote(customer.getNote());
+        result.setSalesGroupId(customer.getSalesGroupId());
+        result.setAdminId(customer.getAdminId());
+        result.setAcquistionVenueId(customer.getAcquistionVenueId());
+        result.setAcquisitionTypeId(customer.getAcquisitionTypeId());
+        result.setAcquisitionCost(customer.getAcquisitionCost());
+        result.setAdminIdAdded(customer.getAdminIdAdded());
+        result.setMemberSearch(customer.getMemberSearch());
+        result.setLead(customer.getLead());
+        result.setStatus(customer.getStatus());
+        result.setDeleted(customer.getDeleted());
+        result.setRecurringPoNumber(customer.getRecurringPoNumber());
+        result.setPreferredStoreId(customer.getPreferredStoreId());
+        result.setPharmReps(customer.getPharmReps());
+        result.setLeadStatusId(customer.getLeadStatusId());
+        result.setInternalNote(customer.getInternalNote());
+        result.setLeadToClient(customer.getLeadToClient());
+        result.setTempTaxExemptNumber(customer.getTempTaxExemptNumber());
+        result.setReferralTypeId(customer.getReferralTypeId());
+        result.setDefaultRevenueSource(customer.getDefaultRevenueSource());
+        result.setEmailInvoiceToMember(customer.isEmailInvoiceToMember());
+        result.setEmailInvoiceToBilling(customer.isEmailInvoiceToBilling());
+        result.setDoNotCall(customer.isDoNotCall());
+        result.setLatitude(customer.getLatitude());
+        result.setLongitude(customer.getLongitude());
+        result.setGeolocationSource(customer.getGeolocationSource());
+        result.setGuestAccount(customer.isGuestAccount());
+        result.setRegisteredDate(customer.getRegisteredDate());
+        result.setAccessHouseAccount(customer.isAccessHouseAccount());
+        result.setSmsOptIn(customer.isSmsOptIn());
+        result.setExternalId(customer.getExternalId());
+
+        return result;
+    }
+
+    public static Customer toCustomerEntity(CustomerModel customerModel) {
+        if (customerModel == null) {
+            return null;
+        }
+        Customer result = new Customer();
+        result.setFirstName(customerModel.getFirstName());
+        result.setLastName(customerModel.getLastName());
+        result.setEmail(customerModel.getEmail());
+        result.setPassword(customerModel.getPassword());
+        result.setPhone(customerModel.getPhone());
+        result.setFax(customerModel.getFax());
+        result.setCellPhone(customerModel.getCellPhone());
+        result.setHomePhone(customerModel.getHomePhone());
+        result.setOther1(customerModel.getOther1());
+        result.setOther2(customerModel.getOther2());
+        result.setAddress1(customerModel.getAddress1());
+        result.setAddress2(customerModel.getAddress2());
+        result.setCity(customerModel.getCity());
+        result.setProvinceId(customerModel.getProvinceId());
+        result.setPostal(customerModel.getPostal());
+        result.setCountryId(customerModel.getCountryId());
+        result.setCompany(customerModel.getCompany());
+        result.setDate(customerModel.getDate());
+        result.setMailingStatus(customerModel.getMailingStatus());
+        result.setValidity(customerModel.getValidity());
+        result.setMemberCount(customerModel.getMemberCount());
+        result.setBillingId(customerModel.getBillingId());
+        result.setNote(customerModel.getNote());
+        result.setSalesGroupId(customerModel.getSalesGroupId());
+        result.setAdminId(customerModel.getAdminId());
+        result.setAcquistionVenueId(customerModel.getAcquistionVenueId());
+        result.setAcquisitionTypeId(customerModel.getAcquisitionTypeId());
+        result.setAcquisitionCost(customerModel.getAcquisitionCost());
+        result.setAdminIdAdded(customerModel.getAdminIdAdded());
+        result.setMemberSearch(customerModel.getMemberSearch());
+        result.setLead(customerModel.getLead());
+        result.setStatus(customerModel.getStatus());
+        result.setDeleted(customerModel.getDeleted());
+        result.setRecurringPoNumber(customerModel.getRecurringPoNumber());
+        result.setPreferredStoreId(customerModel.getPreferredStoreId());
+        result.setPharmReps(customerModel.getPharmReps());
+        result.setLeadStatusId(customerModel.getLeadStatusId());
+        result.setInternalNote(customerModel.getInternalNote());
+        result.setLeadToClient(customerModel.getLeadToClient());
+        result.setTempTaxExemptNumber(customerModel.getTempTaxExemptNumber());
+        result.setReferralTypeId(customerModel.getReferralTypeId());
+        result.setDefaultRevenueSource(customerModel.getDefaultRevenueSource());
+        result.setEmailInvoiceToMember(customerModel.isEmailInvoiceToMember());
+        result.setEmailInvoiceToBilling(customerModel.isEmailInvoiceToBilling());
+        result.setDoNotCall(customerModel.isDoNotCall());
+        result.setLatitude(customerModel.getLatitude());
+        result.setLongitude(customerModel.getLongitude());
+        result.setGeolocationSource(customerModel.getGeolocationSource());
+        result.setGuestAccount(customerModel.isGuestAccount());
+        result.setRegisteredDate(customerModel.getRegisteredDate());
+        result.setAccessHouseAccount(customerModel.isAccessHouseAccount());
+        result.setSmsOptIn(customerModel.isSmsOptIn());
+        result.setExternalId(customerModel.getExternalId());
+
+        return result;
     }
 }

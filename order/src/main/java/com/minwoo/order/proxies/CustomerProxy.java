@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RibbonClient(name = "Customer")
 public interface CustomerProxy {
     @GetMapping("/customers/{id}")
-    ResponseEntity<Customer> getCustomerById(@PathVariable("id") int id);
+    ResponseEntity<Customer> findCustomerById(@PathVariable("id") int id);
 }
