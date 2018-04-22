@@ -1,9 +1,21 @@
 spring:
   application:
-    name: netflix-zuul-api-gateway-server
+    name: api-gateway
 ---
 server:
-  port: 8081
+  port: 8080
 ---
 zuul:
-  prefix: /services
+  prefix: /api
+  routes:
+    customer:
+      path: /customer/**
+      serviceId: customer
+    order:
+      path: /order/**
+      serviceId: order
+---
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: true
