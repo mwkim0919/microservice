@@ -45,8 +45,16 @@ public class OrderController {
         return ResponseEntity.ok(results);
     }
 
+    @GetMapping(value = "/orders/{id}")
+    public ResponseEntity<Order> getAnOrder(@PathVariable("id") int id) {
+        DatasourceContext.setCurrentDatasource("311");
+        Order result = orderRepository.getOne(id);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping(value = "/customers/{id}/orders")
     public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable("id") int customerId) {
+        DatasourceContext.setCurrentDatasource("311");
         ResponseEntity<Customer> customerResult = customerProxy.getCustomerById(customerId);
         Customer customer = customerResult.getBody();
         if (customer != null) {

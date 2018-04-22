@@ -1,5 +1,7 @@
 package com.minwoo.order.entities;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -7,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(schema = "dbo", name = "orders")
+@Proxy(lazy = false)
 public class Order {
 
     @Id

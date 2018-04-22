@@ -15,7 +15,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
     private int id;
-    
+
     @Column(name = "member_fname")
     private String firstName;
 
