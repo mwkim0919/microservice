@@ -7,11 +7,11 @@ import com.minwoo.customer.repositories.CustomerRepository;
 import com.minwoo.customer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,25 +23,40 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping(value = "customers/{id}")
-    public ResponseEntity<CustomerModel> getCustomerById(@PathVariable("id") int id) {
+    @GetMapping(value = "/customers")
+    public ResponseEntity<List<Customer>> getCustomers(
+            @RequestParam(value = "page", required = true) int page,
+            @RequestParam(value = "size", required = true) int size
+    ) {
         DatasourceContext.setCurrentDatasource("311");
-        Optional<Customer> customer = customerRepository.findById(id);
-        if (!customer.isPresent()) {
+        List<Customer> result = customerService.getCustomersByPage(page, size);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/customers/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") int id) {
+        DatasourceContext.setCurrentDatasource("311");
+        Optional<Customer> result = customerRepository.findById(id);
+        if (!result.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(CustomerModel.parseCustomer(customer.get()));
+            return ResponseEntity.ok(result.get());
         }
     }
 
-    @GetMapping(value = "customers")
-    public ResponseEntity<CustomerModel> getCustomerByEmail(@RequestParam("email") String email) {
+    @PostMapping(value = "/customers")
+    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
         DatasourceContext.setCurrentDatasource("311");
-        Customer customer = customerService.findByEmail(email);
-        if (customer == null) {
-            return ResponseEntity.notFound().build();
+        Customer result = customerRepository.saveAndFlush(customer);
+        if (result == null) {
+            return ResponseEntity.badRequest().build();
         } else {
-            return ResponseEntity.ok(CustomerModel.parseCustomer(customer));
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}").
+                            buildAndExpand(result.getId())
+                    .toUri();
+            return ResponseEntity.created(location).body(result);
         }
     }
 }

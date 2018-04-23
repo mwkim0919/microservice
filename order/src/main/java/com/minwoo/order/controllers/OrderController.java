@@ -37,10 +37,8 @@ public class OrderController {
     @GetMapping(value = "/orders")
     public ResponseEntity<List<Order>> getOrders(
             @RequestParam(value = "page", required = true) int page,
-            @RequestParam(value = "size", required = true) int size,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "order", required = false) Sort.Direction sortMethod
-            ) {
+            @RequestParam(value = "size", required = true) int size
+    ) {
         DatasourceContext.setCurrentDatasource("311");
         List<Order> results = orderService.getOrdersByPage(page, size);
         return ResponseEntity.ok(results);
