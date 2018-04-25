@@ -7,6 +7,7 @@ import com.minwoo.customer.repositories.CustomerRepository;
 import com.minwoo.customer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +24,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @PreAuthorize("#oauth2.hasScope('customer.me')")
     @GetMapping(value = "/customers")
     public ResponseEntity<List<Customer>> getCustomers(
             @RequestParam(value = "page", required = true) int page,
@@ -33,6 +35,7 @@ public class CustomerController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("#oauth2.hasScope('customer.me')")
     @GetMapping(value = "/customers/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") int id) {
         DatasourceContext.setCurrentDatasource("311");
@@ -44,6 +47,7 @@ public class CustomerController {
         }
     }
 
+    @PreAuthorize("#oauth2.hasScope('customer.me')")
     @PostMapping(value = "/customers")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
         DatasourceContext.setCurrentDatasource("311");
